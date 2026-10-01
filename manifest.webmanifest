@@ -1,0 +1,25 @@
+{
+ "name": "PillPal Guardian",
+ "short_name": "PillPal",
+ "description": "A simple medicine reminder for older adults and their caregivers.",
+ "start_url": "app.html",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#ffffff",
+ "theme_color": "#2f9461",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any maskable"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any maskable"
+  }
+ ]
+}

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#2f9461">
+<title>PillPal Guardian</title>
+<style>
+:root{box-sizing:border-box;--bg:#fff;--card:#fff;--ink:#0f3358;--mut:#5d6f84;--grn:#2f9461;--gdk:#1f7a4d;--red:#d64545;--redbg:#fdf1f1;--amb:#e0a11b;--navy:#123f6b;--line:#e4eaf1;--chip:#dcefe4;--tint:#eef5f3;color-scheme:light}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font:18px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;padding-top:env(safe-area-inset-top,0px)}
+#app{max-width:480px;margin:0 auto;padding:14px 18px 175px}
+h1{font-size:22px;margin:0}.tag{color:var(--mut);font-size:15px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.role{background:var(--chip);color:var(--gdk);border-radius:99px;padding:6px 14px;font-size:15px;font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.row{display:flex;align-items:center;gap:14px;margin-bottom:12px;position:relative}
+.row:not(:last-child):not(.nl)::before{content:'';position:absolute;left:17px;top:38px;bottom:-14px;width:2px;background:var(--line)}
+.dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;flex:none;z-index:1}
+.g{background:var(--gdk)}.r{background:var(--red)}.a{background:var(--amb)}
+.row .card{flex:1;cursor:pointer;display:flex;align-items:center;gap:8px}.row .card>div{flex:1}.row .card.m{background:var(--redbg);border-color:transparent}
+.chev{color:var(--mut);font-size:22px;flex:none}
+.n{font-weight:800}.s{font-size:15px;font-weight:600}.g2{color:var(--gdk)}.r2{color:var(--red)}.a2{color:#b57f0a}
+.head{display:flex;align-items:center;gap:14px;margin:4px 0 18px}
+.av{width:54px;height:54px;border-radius:50%;background:var(--chip);color:var(--gdk);display:grid;place-items:center;font-weight:800;font-size:24px}
+.head .d{margin-left:auto;color:var(--navy);font-size:15px;font-weight:600;text-align:right}
+.alert{background:var(--redbg);border-radius:16px;padding:16px;margin-top:6px}.alert b{color:var(--red);font-size:20px}
+.btn{display:block;width:100%;text-align:center;text-decoration:none;border:0;background:var(--navy);color:#fff;font-weight:700;font-size:18px;font-family:inherit;padding:16px;border-radius:99px;margin-top:12px;cursor:pointer}
+.btn.o{background:var(--tint);color:var(--navy);border:1.5px dashed #b9c8d8}
+.big{text-align:center;padding-top:40px}.big p{margin:0;color:var(--mut);font-size:26px}
+.big h2{font-size:46px;line-height:1.1;margin:10px 0 0}.big .t{font-size:50px;font-weight:800;margin:8px 0 34px}
+.taken{width:100%;min-height:100px;border:0;border-radius:22px;background:var(--grn);color:#fff;font-weight:800;font-size:38px;font-family:inherit;cursor:pointer;box-shadow:0 4px 0 var(--gdk)}
+.taken:active{transform:translateY(3px);box-shadow:none}
+h3{font-size:22px;margin:0 0 12px}
+label{display:block;font-size:16px;color:var(--mut);margin:16px 0 6px}
+input{width:100%;font:inherit;padding:14px;border-radius:14px;border:1.5px solid var(--line);background:#fff;color:var(--ink)}
+.tr{display:flex;gap:8px;align-items:center;margin-bottom:10px}.x{border:0;background:none;color:var(--mut);font-size:26px;padding:6px 10px;cursor:pointer}
+.days{display:flex;gap:7px}.days button{flex:1;aspect-ratio:1;max-width:56px;border-radius:14px;border:1.5px solid var(--line);background:#f2f5f9;color:var(--mut);font-weight:800;font-size:18px;font-family:inherit;cursor:pointer}
+.days button.on{background:var(--gdk);border-color:var(--gdk);color:#fff}
+.ring{display:flex;align-items:center;gap:16px;background:var(--tint);border-color:transparent;margin-bottom:14px}.ring b{font-size:21px;line-height:1.2}
+.wk{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:700}
+.wk button{border:0;background:none;font-size:26px;color:var(--navy);padding:4px 14px;cursor:pointer}.wk button:disabled{opacity:.25}
+.hr{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}.hr:last-child{border:0}
+.hr .dy{width:62px;font-weight:700}.hr .dy span{display:block;font-weight:400;color:var(--mut);font-size:14px}
+.dots{display:flex;gap:9px;flex:1;flex-wrap:wrap}.dots i{width:16px;height:16px;border-radius:50%;background:var(--line)}.dots i.g{background:var(--gdk)}.dots i.r{background:var(--red)}
+.seg{display:flex;gap:10px}.seg button{flex:1;padding:16px 8px;border-radius:14px;border:1.5px solid var(--line);background:#fff;color:var(--ink);font-weight:700;font-size:17px;font-family:inherit;cursor:pointer}.seg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.empty{text-align:center;padding:26px 16px}.empty .ic{font-size:44px}
+nav{position:fixed;left:0;right:0;bottom:0;background:#f3f6fa;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav div{display:flex;max-width:480px;margin:0 auto}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:10px 0 8px;font-weight:600;font-size:14px;font-family:inherit;cursor:pointer}
+nav .p{display:block;width:64px;margin:0 auto 2px;padding:4px 0;border-radius:99px;font-size:22px}
+nav button.on{color:var(--gdk);font-weight:800}nav button.on .p{background:var(--chip)}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:99px;font-size:16px;z-index:9}
+:focus-visible{outline:3px solid var(--amb);outline-offset:2px}
+body{background:linear-gradient(180deg,#e3f4ea 0,#fff 320px) no-repeat}
+h1{display:flex;align-items:center}
+.logo{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#3bb273,#1f7a4d);font-size:22px;margin-right:10px;box-shadow:0 4px 10px rgba(31,122,77,.35)}
+.card{box-shadow:0 3px 12px rgba(15,51,88,.08)}
+.btn{background:linear-gradient(135deg,#1d5c9b,#123f6b);box-shadow:0 4px 12px rgba(18,63,107,.28)}
+.btn.o{background:var(--tint);box-shadow:none}
+.taken{background:linear-gradient(135deg,#3bb273,#1f7a4d);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 4px 0 var(--gdk),0 0 0 0 rgba(47,148,97,.45)}50%{box-shadow:0 4px 0 var(--gdk),0 0 0 14px rgba(47,148,97,0)}}
+.hello{font-size:24px;font-weight:800;color:var(--gdk);margin-bottom:22px}
+.dot.a{animation:blink 2s infinite}@keyframes blink{50%{transform:scale(1.13)}}
+.ov{position:fixed;inset:0;background:rgba(15,51,88,.6);display:grid;place-items:center;padding:20px;z-index:20}
+.md{background:#fff;border-radius:26px;padding:28px 22px;max-width:400px;width:100%;text-align:center;animation:pop .25s}
+.md .ic{font-size:58px}.md h2{margin:8px 0 6px;font-size:30px}.md p{margin:0 0 8px;font-size:21px;color:var(--mut);font-weight:600}
+.md .yes{background:linear-gradient(135deg,#3bb273,#1f7a4d);font-size:23px;padding:22px}
+.md .no{background:#fff;color:var(--navy);border:2px solid var(--line);box-shadow:none}
+.cele{position:fixed;inset:0;display:grid;place-items:center;z-index:30;background:rgba(255,255,255,.94);text-align:center;animation:pop .3s}
+.cele .e{font-size:88px;display:block}.cele b{display:block;font-size:36px;color:var(--gdk)}
+@keyframes pop{from{transform:scale(.85);opacity:0}}
+.seg.s2 button{font-size:17px}
+.qty{display:flex;gap:12px;align-items:center}.qty input{max-width:130px;text-align:center;font-weight:800;font-size:24px}.qty span{font-weight:700}
+.warn{background:var(--redbg);border:2px solid var(--red);border-radius:20px;padding:16px;margin:0 0 22px;text-align:center;animation:shake .6s 1}
+.warn b{display:block;color:var(--red);font-size:24px}.warn .wi{font-size:40px}.warn div{font-size:19px}
+#app .fab{position:fixed;right:14px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:10;background:linear-gradient(135deg,#1d5c9b,#123f6b);color:#fff;border:0;border-radius:99px;padding:12px 22px;font-weight:800;font-size:18px;font-family:inherit;text-decoration:none;box-shadow:0 6px 16px rgba(18,63,107,.4);display:flex;flex-direction:column;align-items:center;line-height:1.25;cursor:pointer}
+.fab small{font-weight:600;font-size:14px;opacity:.92}
+h1{font-size:20px}.logo{width:38px;height:38px;margin-right:8px;font-size:20px}.head .d{font-size:13px}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+</style></head><body>
+<div id="app"></div>
+<nav id="nb"><div id="nav"></div></nav>
+<script>
+const K='pillpal_v2',DAYS=['M','T','W','T','F','S','S'];
+let S={setup:false,role:'caregiver',name:'',phone:'',tab:'today',nid:1,meds:[],logs:{}};
+try{const s=JSON.parse(localStorage.getItem(K));if(s)S=Object.assign(S,s)}catch(e){}
+let F,add=false,W=0,SR='caregiver',Q=null,QS=1;
+const $=s=>document.querySelector(s);
+const newF=()=>({name:'',dose:'',unit:'tablets',qty:'1',times:['08:00'],days:[0,1,2,3,4,5,6]});F=newF();
+const qtxt=m=>m.qty?m.qty+' '+(m.unit=='ml'?'ml':(+m.qty==1?'tablet':'tablets')):'';
+const qd=m=>[qtxt(m),m.dose].filter(Boolean).join(' · ');
+const warnMsg=x=>S.role=='patient'?['⚠️ Missed dose: '+x.m.name,'You have not taken '+(qtxt(x.m)||'your dose')+' ('+f12(x.t)+'). Please take your medicine as directed or call your caregiver.'+(S.cphone?' '+S.cphone:'')]:['⚠️ '+S.name+' missed a dose','Has not taken '+x.m.name+' '+(qtxt(x.m)?'('+qtxt(x.m)+') ':'')+'due at '+f12(x.t)+'.'+(S.phone?' Call '+S.phone:'')];
+function pmBanner(pm){if(!pm.length)return'';const x=pm[0],cp=(S.cphone||'').trim();
+ return`<div class="warn"><div class="wi">⚠️</div><b>You missed your ${f12(x.t)} ${esc(x.m.name)}</b><div>Please take it as directed, or call your caregiver.</div>${cp?`<a class="btn" href="tel:${esc(cp)}">📞 Call caregiver · ${esc(cp)}</a><a class="btn o" href="sms:${esc(cp)}?body=${encodeURIComponent('I missed my '+x.m.name+' dose at '+f12(x.t)+'.')}">💬 Text my caregiver</a>`:'<div class="tag">No caregiver phone number saved yet.</div>'}</div>`}
+const greet=()=>{const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'};
+function modal(){if(!Q)return'';const x=doses(new Date()).find(d=>d.key==Q);if(!x)return'';
+ return`<div class="ov"><div class="md" role="dialog" aria-modal="true"><div class="ic">${QS==2?'🤔':'💊'}</div><h2>${QS==2?'Please confirm once more':'Did you take it?'}</h2><p>${esc(x.m.name)}${qtxt(x.m)?' · '+qtxt(x.m):''}</p>${QS==2?'<p style="font-size:18px">Only tap Yes if you really took it.</p>':''}<button class="btn yes" data-a="yes">${QS==2?'✅ Yes, I am sure':'✅ Yes, I took it'}</button><button class="btn no" data-a="no">${QS==2?'Go back':'Not yet'}</button></div></div>`}
+function fab(){if(!S.setup)return'';const pat=S.role=='patient',num=((pat?S.cphone:S.phone)||'').trim(),lab=pat?'Call caregiver':'Call '+S.name;
+ return num?`<a class="fab" href="tel:${esc(num)}"><span>📞 ${esc(lab)}</span><small>${esc(num)}</small></a>`:`<button class="fab" data-a="nonum">📞 ${esc(lab)}</button>`}
+function celebrate(){const e=document.createElement('div');e.className='cele';e.innerHTML='<div><span class="e">🎉</span><b>Well done!</b><span class="tag">Great job taking your medicine</span></div>';document.body.appendChild(e);setTimeout(()=>e.remove(),1800)}
+const dk=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const wd=d=>(d.getDay()+6)%7;
+const f12=t=>{const[h,m]=t.split(':').map(Number);return(h%12||12)+':'+String(m).padStart(2,'0')+' '+(h<12?'AM':'PM')};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}sched()}
+function doses(d){const k=dk(d),w=wd(d),now=Date.now(),o=[];
+ S.meds.forEach(m=>{if(!m.days.includes(w))return;m.times.forEach(t=>{
+  const[h,mi]=t.split(':').map(Number),due=new Date(d);due.setHours(h,mi,0,0);if(due<m.created)return;
+  const key=k+'|'+m.id+'|'+t;o.push({key,m,t,due,got:S.logs[key],st:S.logs[key]?'taken':(now-due>36e5?'missed':'upcoming')})})});
+ return o.sort((a,b)=>a.due-b.due)}
+function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}
+function mark(key){if(S.logs[key])delete S.logs[key];else{const n=new Date();S.logs[key]=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')}save();render()}
+async function sched(){const LN=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.LocalNotifications;if(!LN)return;
+ try{const p=await LN.getPending();if(p.notifications.length)await LN.cancel({notifications:p.notifications});
+ const L=[],now=Date.now();let id=1;
+ for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()+i);doses(d).forEach(x=>{if(x.got)return;
+  if(x.due>now&&id<100)L.push({id:id++,title:'Time for '+x.m.name,body:qd(x.m)+' at '+f12(x.t),schedule:{at:x.due,allowWhileIdle:true}});
+  const w=new Date(+x.due+36e5);if(w>now&&id<100){const wm=warnMsg(x);L.push({id:id++,title:wm[0],body:wm[1],schedule:{at:w,allowWhileIdle:true}})}})}
+ if(L.length)await LN.schedule({notifications:L})}catch(e){}}
+async function askPerm(){const LN=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.LocalNotifications;
+ try{if(LN)await LN.requestPermissions();else if('Notification' in window)await Notification.requestPermission()}catch(e){}}
+const seen={};
+function tick(){if(!('Notification' in window)||Notification.permission!='granted')return;
+ doses(new Date()).forEach(x=>{const d=Date.now()-x.due;if(x.st!='taken'&&d>=0&&d<12e4&&!seen[x.key]){seen[x.key]=1;try{new Notification('Time for '+x.m.name,{body:qd(x.m)+' at '+f12(x.t)})}catch(e){}}
+ if(x.st=='missed'&&d>=36e5&&d<36e5+12e4&&!seen[x.key+'w']){seen[x.key+'w']=1;const wm=warnMsg(x);try{new Notification(wm[0],{body:wm[1]})}catch(e){}}})}
+const ic={taken:['g','✓'],missed:['r','!'],upcoming:['a','◔']};
+function setup(){return`<div class="big" style="padding-top:10px"><h2 style="font-size:34px">Welcome</h2><p style="font-size:20px;margin-top:8px">Who is using this phone?</p></div>
+ <div class="seg" style="margin-top:20px"><button data-a="sr" data-k="caregiver" class="${SR=='caregiver'?'on':''}">Caregiver</button><button data-a="sr" data-k="patient" class="${SR=='patient'?'on':''}">Patient</button></div>
+ <label>Patient’s name</label><input type="text" id="sn" placeholder="Margaret" autocomplete="off">
+ <label>Patient’s phone (optional, for the Call button)</label><input type="tel" id="sp" placeholder="+1 555 123 4567">
+ <label>Caregiver’s phone (optional, so the patient can call)</label><input type="tel" id="scp" placeholder="+1 555 987 6543">
+ <label>Caregiver PIN (4 digits). Needed to add medicines.</label><input type="tel" id="sc" maxlength="4" inputmode="numeric" placeholder="1234">
+ <button class="btn" data-a="go">Get started</button>
+ <p class="tag" style="text-align:center;margin-top:16px">PillPal is a reminder tool. It does not give medical advice.</p>`}
+function today(){
+ const ds=doses(new Date()),n=ds.filter(x=>x.st=='taken').length;
+ if(!S.meds.length)return`<div class="card empty"><div class="ic">💊</div><h3 style="margin-top:8px">No medicines yet</h3>${S.role=='patient'?'<p class="tag" style="font-size:19px;margin:0">Your caregiver will add your medicines here.</p>':'<p class="tag" style="font-size:17px;margin:0">Add the first medicine and its times to start reminders.</p><button class="btn" data-a="new">+ Add medicine</button>'}</div>`;
+ if(S.role=='patient'){
+  const nx=ds.find(x=>x.st!='taken'),pm=ds.filter(x=>x.st=='missed');
+  if(!nx)return`<div class="big"><div style="font-size:64px">✅</div><h2 style="font-size:36px">All done for today</h2><p style="margin-top:12px;font-size:22px">${n} of ${ds.length} doses taken</p></div>`;
+  return`<div class="big"><div class="hello">${greet()}, ${esc(S.name)} 👋</div>${pmBanner(pm)}<p>Next medicine</p><h2>${esc(nx.m.name)}</h2><div class="tag" style="font-size:25px;font-weight:700;color:var(--navy)">${esc([qtxt(nx.m)&&'Take '+qtxt(nx.m),nx.m.dose].filter(Boolean).join(' · '))}</div><div class="t">${f12(nx.t)}</div><button class="taken" data-a="ask" data-k="${nx.key}">✓ TAKEN</button></div>`}
+ const miss=ds.filter(x=>x.st=='missed').pop();
+ const call=S.phone?`<a class="btn" href="tel:${esc(S.phone)}">📞 Call ${esc(S.name)} · ${esc(S.phone)}</a>`:`<button class="btn" data-a="tab" data-k="settings">Add ${esc(S.name)}’s phone number</button>`;
+ return`<div class="head"><div class="av">${esc((S.name||'?')[0].toUpperCase())}</div><div><div class="n" style="font-size:22px">${esc(S.name)}’s day</div><div class="tag">${n} of ${ds.length} doses taken</div></div><div class="d">${new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})}</div></div>`+
+ (ds.length?ds.map(x=>{const[c,i]=ic[x.st],lb={taken:'Taken '+(x.got?f12(x.got).replace(/^0/,'').replace(' AM','').replace(' PM',''):''),missed:'Missed',upcoming:'Upcoming'}[x.st];
+  return`<div class="row"><div class="dot ${c}">${i}</div><div class="card ${x.st=='missed'?'m':''}" data-a="mark" data-k="${x.key}"><div><div class="s tag">${f12(x.t)}${qtxt(x.m)?' · '+qtxt(x.m):''}</div><div class="n">${esc(x.m.name)} ${esc(x.m.dose)}</div><div class="s ${c=='g'?'g2':c=='r'?'r2':'a2'}">${lb}</div></div><span class="chev">›</span></div></div>`}).join(''):`<div class="card">Nothing scheduled today.</div>`)+
+ (miss?`<div class="alert"><b>Missed ${f12(miss.t)} dose</b><div class="tag" style="margin-top:4px">${esc(S.name)}’s ${esc(miss.m.name)} ${esc(miss.m.dose)} was not taken at ${f12(miss.t)}.</div>${call}</div>`:'')+
+ `<p class="tag" style="text-align:center;margin-top:16px">Tap a dose to mark it taken, or tap again to undo.</p>`}
+function meds(){
+ if(add&&S.role!='patient')return`<div class="n" style="font-size:22px;margin-bottom:4px"><button class="x" data-a="back" aria-label="Back" style="font-size:28px">←</button> Add medicine</div>
+ <label>Medicine name</label><input type="text" id="fn" value="${esc(F.name)}" placeholder="Metformin" autocomplete="off">
+ <label>Medicine type</label><div class="seg s2"><button data-a="ut" data-k="tablets" class="${F.unit=='tablets'?'on':''}">💊 Tablets</button><button data-a="ut" data-k="ml" class="${F.unit=='ml'?'on':''}">🧴 Liquid (ml)</button></div>
+ <label>${F.unit=='ml'?'Amount per dose (ml)':'Tablets per dose'}</label><div class="qty"><input type="text" inputmode="decimal" id="fq" value="${esc(F.qty)}"><span>${F.unit=='ml'?'ml':'tablet(s)'}</span></div>
+ <label>Strength (optional)</label><input type="text" id="fd" value="${esc(F.dose)}" placeholder="500 mg" autocomplete="off">
+ <label>Times</label>${F.times.map((t,i)=>`<div class="tr"><input type="time" data-i="${i}" value="${t}"><button class="x" data-a="rt" data-k="${i}" aria-label="Remove time">✕</button></div>`).join('')}
+ <button class="btn o" data-a="at" style="margin-top:0">+ Add time</button>
+ <label>Days of week</label><div class="days">${DAYS.map((d,i)=>`<button data-a="fd" data-k="${i}" class="${F.days.includes(i)?'on':''}" aria-pressed="${F.days.includes(i)}">${d}</button>`).join('')}</div>
+ <button class="btn" data-a="sm">Save medicine</button>`;
+ return`<h3>Medicines</h3>`+
+ (S.meds.length?S.meds.map(m=>`<div class="row nl"><div class="card" style="cursor:default"><div><div class="n">${esc(m.name)} ${esc(m.dose)}</div><div class="s tag">${qtxt(m)?qtxt(m)+' · ':''}${m.times.map(f12).join(', ')} · ${m.days.length==7?'Every day':m.days.map(d=>DAYS[d]).join(' ')}</div></div></div>${S.role=='patient'?'':`<button class="x" data-a="dm" data-k="${m.id}" aria-label="Delete ${esc(m.name)}">🗑</button>`}</div>`).join(''):`<div class="card empty"><div class="ic">💊</div><p class="tag" style="font-size:17px">Nothing here yet.</p></div>`)+
+ (S.role=='patient'?`<p class="tag" style="margin-top:14px">Only your caregiver can add or change medicines.</p>`:`<button class="btn" data-a="new">+ Add medicine</button>`)}
+function history(){
+ const t0=new Date();t0.setHours(0,0,0,0);const mon=new Date(t0);mon.setDate(t0.getDate()-wd(t0)+7*W);
+ const days=[];let tk=0,tt=0;
+ for(let i=0;i<7;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);const ds=doses(d);ds.forEach(x=>{if(x.st!='upcoming'){tt++;if(x.st=='taken')tk++}});days.push({d,ds})}
+ const p=tt?Math.round(tk/tt*100):0,C=2*Math.PI*40,o={month:'short',day:'numeric'};
+ return`<div class="wk"><button data-a="wk" data-k="-1" aria-label="Previous week">‹</button><span>${mon.toLocaleDateString(undefined,o)} – ${days[6].d.toLocaleDateString(undefined,{...o,year:'numeric'})}</span><button data-a="wk" data-k="1" aria-label="Next week" ${W>=0?'disabled':''}>›</button></div>
+ <div class="card ring"><svg width="100" height="100" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="none" stroke="#cfe3d9" stroke-width="9"/><circle cx="50" cy="50" r="40" fill="none" stroke="var(--gdk)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C*p/100} ${C}" transform="rotate(-90 50 50)"/><text x="50" y="58" text-anchor="middle" font-size="24" font-weight="800" fill="var(--ink)">${tt?p+'%':'–'}</text></svg><div><b>${tt?p+'% on time<br>this week':'No doses<br>this week'}</b><div class="tag">${tk} of ${tt} doses</div></div></div>
+ <div class="card">${days.map(({d,ds})=>`<div class="hr"><div class="dy">${d.toLocaleDateString(undefined,{weekday:'short'})}<span>${d.toLocaleDateString(undefined,o)}</span></div><div class="dots">${ds.map(x=>`<i class="${x.st=='taken'?'g':x.st=='missed'?'r':''}"></i>`).join('')}</div><div class="s tag">${ds.filter(x=>x.st=='taken').length} / ${ds.length}</div></div>`).join('')}</div>`}
+function settings(){
+ if(S.role=='patient')return`<h3>Settings</h3><button class="btn o" data-a="perm">🔔 Turn on reminders</button><button class="btn o" data-a="role" data-k="caregiver">🔒 Caregiver mode (PIN)</button><p class="tag" style="margin-top:16px">PillPal is a reminder tool and does not give medical advice. Always follow your doctor’s instructions.</p>`;
+ return`<h3>Settings</h3><label>This phone is used by the</label>
+ <div class="seg"><button data-a="role" data-k="caregiver" class="${S.role=='caregiver'?'on':''}">Caregiver</button><button data-a="role" data-k="patient" class="${S.role=='patient'?'on':''}">Patient</button></div>
+ <label>Patient’s name</label><input type="text" id="pn" value="${esc(S.name)}">
+ <label>Patient’s phone (shown on the missed-dose alert)</label><input type="tel" id="pp" value="${esc(S.phone)}" placeholder="+1 555 123 4567">
+ <label>Caregiver’s phone (the patient can call this)</label><input type="tel" id="cp" value="${esc(S.cphone||'')}" placeholder="+1 555 987 6543">
+ <button class="btn o" data-a="perm">🔔 Turn on reminders</button>
+ <button class="btn o" data-a="wipe" style="color:var(--red)">Delete all data</button>
+ <p class="tag" style="margin-top:16px">Your medicines stay on this phone. PillPal is a reminder tool and does not give medical advice. Always follow your doctor’s instructions.</p>`}
+function render(){
+ const nb=$('#nb');
+ if(!S.setup){$('#app').innerHTML=`<div class="top"><div><h1><span class="logo">💊</span>PillPal Guardian</h1><div class="tag">Care together, healthier days</div></div></div>`+setup();nb.style.display='none';return}
+ nb.style.display='';
+ const t=S.tab;
+ $('#app').innerHTML=`<div class="top"><div><h1><span class="logo">💊</span>PillPal Guardian</h1><div class="tag">Care together, healthier days</div></div><div class="role">${S.role=='patient'?'Patient':'Caregiver'}</div></div>`+{today,meds,history,settings}[t]()+modal()+fab();
+ $('#nav').innerHTML=[['today','🏠','Today'],['meds','💊','Meds'],['history','📊','History'],['settings','⚙️','Settings']].map(([k,e,l])=>`<button data-a="tab" data-k="${k}" class="${t==k?'on':''}"><span class="p">${e}</span>${l}</button>`).join('')}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,k=b.dataset.k;
+ if(a=='tab'){S.tab=k;add=false;save()}
+ else if(a=='mark'){mark(k);return}
+ else if(a=='sr')SR=k;
+ else if(a=='go'){const pin=$('#sc').value.trim();if(!/^\d{4}$/.test(pin)){toast('Choose a 4-digit caregiver PIN');return}S.pin=pin;S.role=SR;S.name=($('#sn').value.trim()||'Patient');S.phone=$('#sp').value.trim();S.cphone=$('#scp').value.trim();S.setup=true;S.tab='today';save();askPerm()}
+ else if(a=='role'){if(k=='caregiver'&&S.role=='patient'&&S.pin){const q=prompt('Enter caregiver PIN');if(q!==S.pin){toast('Wrong PIN');return}}add=false;S.role=k;S.tab='today';save()}
+ else if(a=='new'){if(S.role=='patient')return;F=newF();add=true;S.tab='meds'}
+ else if(a=='back')add=false;
+ else if(a=='at')F.times.push('12:00');
+ else if(a=='rt'){if(F.times.length>1)F.times.splice(+k,1)}
+ else if(a=='fd'){const i=+k;F.days=F.days.includes(i)?F.days.filter(d=>d!=i):[...F.days,i]}
+ else if(a=='sm'){if(!F.name.trim()){toast('Please enter a medicine name');return}const q=parseFloat(String(F.qty).replace(',','.'));if(!(q>0)){toast('Enter how much per dose');return}
+  S.meds.push({id:S.nid++,name:F.name.trim(),dose:F.dose.trim(),unit:F.unit,qty:String(q),times:[...new Set(F.times)].sort(),days:F.days.length?F.days:[0,1,2,3,4,5,6],created:Date.now()});add=false;S.tab='today';save();toast('Medicine saved')}
+ else if(a=='dm'){if(S.role=='patient')return;if(confirm('Delete this medicine?')){S.meds=S.meds.filter(m=>m.id!=k);save()}}
+ else if(a=='ask'){Q=k;QS=1}
+ else if(a=='no'){Q=null;QS=1}
+ else if(a=='yes'){if(QS==1)QS=2;else{const key=Q;Q=null;QS=1;mark(key);celebrate();return}}
+ else if(a=='nonum'){if(S.role=='patient'){toast('No caregiver number saved yet');return}S.tab='settings';save();toast('Add the patient’s phone here')}
+ else if(a=='ut'){F.unit=k;F.qty=k=='ml'?'5':'1'}
+ else if(a=='wk')W=Math.min(0,W+ +k);
+ else if(a=='perm'){askPerm();toast('Reminders requested');return}
+ else if(a=='wipe'){if(confirm('Delete all medicines and history?')){try{localStorage.removeItem(K)}catch(e){}S={setup:false,role:'caregiver',name:'',phone:'',tab:'today',nid:1,meds:[],logs:{}};sched()}}
+ render()});
+document.addEventListener('input',e=>{const i=e.target;
+ if(i.id=='fn')F.name=i.value;else if(i.id=='fd')F.dose=i.value;else if(i.id=='fq')F.qty=i.value;
+ else if(i.dataset.i!==undefined)F.times[+i.dataset.i]=i.value;
+ else if(i.id=='pn'){S.name=i.value||'Patient';try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+ else if(i.id=='cp'){S.cphone=i.value;try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+ else if(i.id=='pp'){S.phone=i.value;try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}});
+setInterval(()=>{tick();if(S.setup&&!add&&S.tab!='settings')render()},30000);
+render();sched();
+</script><script>
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+(function(){var dp=null,hide=false;try{hide=localStorage.getItem('pp_hint')}catch(e){}
+ if(matchMedia('(display-mode: standalone)').matches||navigator.standalone||hide)return;
+ function show(){if(document.getElementById('ih'))return;var d=document.createElement('div');d.id='ih';
+  d.style.cssText='position:fixed;left:12px;right:12px;top:calc(10px + env(safe-area-inset-top,0px));z-index:40;background:#123f6b;color:#fff;border-radius:16px;padding:12px 14px;font:600 15px/1.35 system-ui,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25);display:flex;gap:10px;align-items:center;max-width:456px;margin:0 auto';
+  var ios=/iphone|ipad/i.test(navigator.userAgent);
+  d.innerHTML='<span style="flex:1">📲 Install PillPal on your phone: '+(dp?'tap Install.':ios?'tap Share, then “Add to Home Screen”.':'open the ⋮ menu, then “Install app”.')+'</span>'+(dp?'<button id="ib" style="border:0;border-radius:99px;background:#3bb273;color:#fff;font:800 15px system-ui;padding:9px 16px">Install</button>':'')+'<button id="ix" aria-label="Close" style="border:0;background:none;color:#fff;font-size:22px">✕</button>';
+  document.body.appendChild(d);
+  document.getElementById('ix').onclick=function(){d.remove();try{localStorage.setItem('pp_hint','1')}catch(e){}};
+  var b=document.getElementById('ib');if(b)b.onclick=function(){dp.prompt();d.remove()}}
+ addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;var o=document.getElementById('ih');if(o)o.remove();show()});
+ setTimeout(show,1500)})();
+</script></body></html>
